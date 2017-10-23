@@ -4,19 +4,23 @@ set -e
 
 if [ "$1" = 'couchdb' ]; then
 	# we need to set the permissions here because docker mounts volumes as root
+	export HOME=/var/lib/couchdb
+	mkdir -p /var/run/couchdb
+
 	chown -R couchdb:couchdb \
 		/var/lib/couchdb \
 		/var/log/couchdb \
 		/var/run/couchdb \
-		//etc/couchdb
+		/etc/couchdb
 
 	chmod -R 0770 \
 		/var/lib/couchdb \
 		/var/log/couchdb \
 		/var/run/couchdb \
-		//etc/couchdb
+		/etc/couchdb
 
 	chmod 664 /etc/couchdb/*.ini
+	mkdir -p /etc/couchdb/local.d/
 	chmod 775 /etc/couchdb/*.d
 
 	if [ "$COUCHDB_USER" ] && [ "$COUCHDB_PASSWORD" ]; then
