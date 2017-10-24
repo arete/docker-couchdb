@@ -48,8 +48,8 @@ if [ "$1" = 'couchdb' ]; then
 			****************************************************
 		EOWARN
 	fi
-
-	exec  chpst -u couchdb:couchdb couchdb -r 5 -o /dev/null  -e /dev/null  "$@"
+	export ERL_FLAGS="-couch_ini /usr/lib/couchdb/etc/default.ini /usr/lib/couchdb/etc/datadirs.ini /etc/couchdb/local.ini"
+	exec chpst -u couchdb:couchdb /usr/lib/couchdb/bin/couchdb  "$@"
 fi
 
 exec "$@"
